@@ -9,6 +9,7 @@ Issues regarding this dataset are categorized under the `Device Failure` project
 Some additional advice
 
 * Use _R_ or _Python_
+* Notebooks make us smile. Scripts work too.
 * Visualizations are rad and we like them!
 * Be verbose about your methodology and reasoning.
 * Show code!

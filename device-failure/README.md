@@ -5,7 +5,8 @@ recorded, in addition to a device ID (`device`), a timestamp (`date`), and a boo
 (`failure`). The rows of the dataset correspond to single telemetry samples for a device. 
 
 ## Applicant Information
-Issues regarding this dataset are categorized under the `Device Failure` project. Please select one issue to work on.
+Issues regarding this dataset are categorized under the `Device Failure` project. Please select one issue to work on, and 
+download and load the dataset mentioned above.
 Some additional advice
 
 * Use _R_ or _Python_

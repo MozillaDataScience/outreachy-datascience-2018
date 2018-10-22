@@ -12,3 +12,4 @@ Some additional advice
 * Visualizations are rad and we like them!
 * Be verbose about your methodology and reasoning.
 * Show code!
+* 3rd party libraries are fine. Just make sure to describe why and how you are using them.

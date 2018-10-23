@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1">
+                <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+                    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+                    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+                    
+                    <!-- Resources -->
+                    <!-- Note: AmCharts software is free under a linkware license. Please do not remove or hide in any other way link to amcharts web site – www.amcharts.com.-->
+                    <script src="https://www.amcharts.com/lib/3/amcharts.js"></script>
+                    <script src="https://www.amcharts.com/lib/3/pie.js"></script>
+                    <script src="https://www.amcharts.com/lib/3/plugins/export/export.min.js"></script>
+                    <link rel="stylesheet" href="https://www.amcharts.com/lib/3/plugins/export/export.css" type="text/css" media="all" />
+                    <script src="https://www.amcharts.com/lib/3/themes/light.js"></script>
+                    
+    </head>
+    <body>
+        <div class="jumbotron text-center">
+            <h1>Data Science for friends</h1>
+            <p>What is the distribution of the number of friends?</p>
+            <p>What are the gender breakdown of friends?</p>
+            <p>What is the breakdown by race?</p>
+        </div>
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-8">
+                    <style>
+                        #chartdiv {
+                            width: 100%;
+                            height: 500px;
+                        }
+                    </style>
+                    <script>
+                        var chart_values = []
+                        {% for group in groups %}
+                        {% for key in group %}
+                        var amount ={{ group[key] }}
+                        var person_type = "{{key}}"
+                        chart_values.push({"person_type": person_type,"amount": amount})
+                        
+                        {% endfor %}
+                        {% endfor %}
+                        
+                        var chart = AmCharts.makeChart( "chartdiv", {
+                                                       "type": "pie",
+                                                       "theme": "light",
+                                                       "dataProvider": chart_values,
+                                                       "valueField": "amount",
+                                                       "titleField": "person_type",
+                                                       "balloon":{
+                                                       "fixedPosition":true
+                                                       },
+                                                       "export": {
+                                                       "enabled": true
+                                                       }
+                                                       } );
+                        </script>
+                    <!-- HTML -->
+                    <div id="chartdiv"></div>
+                     <div class="jumbotron text-center">
+                    {% for group in groups %}
+                    {% for key in group %}
+                    <p>{{ group[key] }} {{key}}</p>
+                    {% endfor %}
+                    {% endfor %}
+                    </div>
+                    
+                </div>
+                <div class="col-sm-4">
+                    <form action="{{ url_for('show_chart') }}" method="post" >
+        
+                        <h3>Show friends of these groups: </h3>
+
+                        
+                        <h4>By gender:</h4>
+                        
+                        {% for gender in genders %}
+                            {% set gender_str = gender %}
+                            {% if gender_str == ' ' %}
+                                {% set gender_str = 'Gender not defined' %}
+                            {% endif  %}
+                            <p>
+                            <input type="checkbox" id="{{gender}}" name="genders" value="{{gender}}">
+                            <label for="{{gender}}">{{gender_str}}</label>
+                            </p>
+                        {% endfor %}
+                            
+                        <h4>By race:</h4>
+                        
+                        {% for race in races %}
+                            {% set race_str = race %}
+                            {% if race_str == ' ' %}
+                                {% set race_str = 'Race not defined' %}
+                            {% endif  %}
+                            <p>
+                            <input type="checkbox" id="{{race}}" name="races" value="{{race}}">
+                            <label for="{{race}}">{{race_str}}</label>
+                            </p>
+                        {% endfor %}
+                        
+                        <h4>By amount of friends:</h4>
+                        
+                        {% for type_of_friendship in types_of_friendship %}
+                            {% set type_of_friendship_str = type_of_friendship %}
+                            {% if type_of_friendship_str == ' ' %}
+                                {% set type_of_friendship_str = 'Friends are not defined' %}
+                            {% endif  %}
+                            <p><input type="checkbox" class="form-check-input" id="{{type_of_friendship}}" name="type_of_friendship" value="{{type_of_friendship}}">
+                                <label class="form-check-label" for="{{type_of_friendship}}">{{type_of_friendship_str}}</label></p>
+                        {% endfor %}
+                        
+                        <input type="submit" class="btn btn-default" >
+                    </form>
+                    
+                    
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

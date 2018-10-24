@@ -1,34 +1,39 @@
-import pandas as pd
-#loading the datasdet using pandas dataframe
-school_dataset = pd.read_csv('Somerville_High_School_YRBS_Raw_Data_2002-2016.csv', na_values=' ')
-#filling NA values
-school_dataset.fillna("No data available", inplace = True )
-#Here parents is a categorical column, it has got few categories, to seperate each category and to make distributions we need to do one hot encoding
-#doing one hot encoding using get_dummies from pandas
-one_hot = pd.get_dummies(school_dataset["parents"]) #This will be the dataframe of each single caregiver type
-#joining both the dataframe to create single dataframe distribution
-school_dataset = school_dataset.join(one_hot)
-#Here is the dataset with single caregiver type distribution school_dataset
 
-#As the definitation of distrubtion is not clear here, I am also computing the total frequency of each single caregiver type
+# coding: utf-8
 
-#To find unique values in parents column
-school_dataset["parents"].unique()
-#Now we will search for the distribution of each unique values
-# We will find here the columns which contains this particular string
-a= "mother"
-print("Number of samples with mother", len(school_dataset[school_dataset["parents"].str.contains(a)]))
-a="father"
-print("Number of samples with father",len(school_dataset[school_dataset["parents"].str.contains(a)]))
-a="step-parent"
-print("Number of samples with step-parent",len(school_dataset[school_dataset["parents"].str.contains(a)]))
-a="Foster parent"
-print("Number of samples with Foster parent",len(school_dataset[school_dataset["parents"].str.contains(a)]))
-a="Another relative"
-print("Number of samples with Another relative",len(school_dataset[school_dataset["parents"].str.contains(a)]))
-a="Someone else not on this list"
-print("Number of samples with Someone else not on this list",len(school_dataset[school_dataset["parents"].str.contains(a)]))
-a="No data available"
-print("Number of samples with No Data Available",len(school_dataset[school_dataset["parents"].str.contains(a)]))
-#As we can sae the sum of all these values is more than the total number of rows in this dataset, it is because there is overlapping in all these values. 
+# In[ ]:
+
+
+#Lets create a list of unique values in friends column
+friends_list = school_dataset["friends"].unique().tolist()
+print("Lets print the distribution of number of friends")
+for f in friends_list:
+    print("Number of samples which have", f,"friends:", len(school_dataset[school_dataset["friends"].str.contains(f)]))
+
+
+#lets create a list of unique values in gender column
+gender_list = school_dataset["gender"].unique().tolist()
+gender_list
+print("Lets print the distribution with respect to gender")
+for g in gender_list:
+    print("Number of students from", g,"gender:", len(school_dataset[school_dataset["gender"].str.contains(g)]))
+
+#loop through gender_list and friends_list to find the people of particular gender have what number of friends
+print("Lets print the gender breakdown of friends")
+for g in gender_list:
+    for f in friends_list:
+        x = np.where((school_dataset["gender"] ==g) & (school_dataset['friends'] == f))
+        print("Number of", g, "students which have",f,"friends:", len(x[0]))
+#lets make one more list of unique values in race column
+print("Lets print the distribution of student by race")
+race = school_dataset["race"].unique().tolist()
+for r in race:
+    print("Number of students from", r,"background:", len(school_dataset[school_dataset["race"].str.contains(r)]))
+
+print("Lets print the breakdown by race of number of friends students have ")
+#loop through race and friends_list to find the people of particular race have what number of friends
+for r in race:
+    for f in friends_list:
+        x = np.where((school_dataset["race"] ==r) & (school_dataset['friends'] == f))
+        print("Number of students from", r, "background which have",f,"friends:", len(x[0]))
 

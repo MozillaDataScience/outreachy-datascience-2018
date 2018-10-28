@@ -1,3 +1,5 @@
+# solution for issue number 12
+
 import pandas as pd
 #loading the datasdet using pandas dataframe
 school_dataset = pd.read_csv('Somerville_High_School_YRBS_Raw_Data_2002-2016.csv', na_values=' ')

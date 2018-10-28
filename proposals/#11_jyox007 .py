@@ -1,7 +1,5 @@
 
-# coding: utf-8
-
-# In[ ]:
+#Solution for issue#11
 
 
 #Lets create a list of unique values in friends column
